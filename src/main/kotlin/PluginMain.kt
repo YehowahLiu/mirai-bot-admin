@@ -1,6 +1,7 @@
 package cc.redme.mirai.plugin.botadmin
 
 import cc.redme.mirai.plugin.botadmin.command.MemberCommand
+import cc.redme.mirai.plugin.botadmin.command.GroupCommand
 import net.mamoe.mirai.console.command.CommandManager
 import net.mamoe.mirai.console.plugin.jvm.JvmPluginDescription
 import net.mamoe.mirai.console.plugin.jvm.KotlinPlugin
@@ -22,7 +23,7 @@ object PluginMain : KotlinPlugin(
     }
 ) {
 
-    private val commands = listOf(MemberCommand)
+    private val commands = listOf(MemberCommand, GroupCommand)
     override fun onEnable() {
         logger.info { "Plugin loaded" }
         commands.forEach (CommandManager::registerCommand)
