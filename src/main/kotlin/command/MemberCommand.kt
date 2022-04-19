@@ -1,10 +1,12 @@
 package cc.redme.mirai.plugin.botadmin.command
 
 import cc.redme.mirai.plugin.botadmin.PluginMain
+import cc.redme.mirai.plugin.botadmin.utils.ImageUtils.getAvatar
 import net.mamoe.mirai.console.command.CommandSender
 import net.mamoe.mirai.console.command.CompositeCommand
 import net.mamoe.mirai.contact.*
 import net.mamoe.mirai.message.data.buildMessageChain
+import net.mamoe.mirai.utils.ExternalResource.Companion.toExternalResource
 
 object MemberCommand: CompositeCommand(
     PluginMain, "member", "群员",
@@ -31,8 +33,10 @@ object MemberCommand: CompositeCommand(
     @SubCommand("status", "info", "状态", "信息")
     suspend fun CommandSender.status(member: Member){
         buildMessageChain {
-            // TODO: 首行显示头像
             if (member is NormalMember) {
+                if(subject!=null){
+                    +subject!!.uploadImage(getAvatar(member).toExternalResource())
+                }
                 +(member.asFriendOrNull()?: member.asStranger()).nick
                 +" @ ${member.id}\n"
                 +"名片: ${member.nameCard} @ ${member.group.name}\n"

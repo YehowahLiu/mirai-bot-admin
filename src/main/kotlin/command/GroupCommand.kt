@@ -1,12 +1,17 @@
 package cc.redme.mirai.plugin.botadmin.command
 
 import cc.redme.mirai.plugin.botadmin.PluginMain
+import cc.redme.mirai.plugin.botadmin.utils.ImageUtils.getGroupAvatar
 import kotlinx.coroutines.delay
 import net.mamoe.mirai.console.command.CommandSender
 import net.mamoe.mirai.console.command.CompositeCommand
 import net.mamoe.mirai.console.command.getGroupOrNull
-import net.mamoe.mirai.contact.*
+import net.mamoe.mirai.contact.Group
+import net.mamoe.mirai.contact.NormalMember
+import net.mamoe.mirai.contact.PermissionDeniedException
+import net.mamoe.mirai.contact.nameCardOrNick
 import net.mamoe.mirai.message.data.buildMessageChain
+import net.mamoe.mirai.utils.ExternalResource.Companion.toExternalResource
 
 object GroupCommand: CompositeCommand(
     PluginMain, "group", "群组",
@@ -84,6 +89,9 @@ object GroupCommand: CompositeCommand(
             return
         }
         buildMessageChain {
+            if(subject!=null) {
+                +subject!!.uploadImage(getGroupAvatar(group).toExternalResource())
+            }
             +" ${group.name} @ ${group.id}\n"
             +"人数: ${group.allMember().size}\n"
             +"群主: ${group.allMember().find { it.permission.level == 2 }?.nameCardOrNick}\n"

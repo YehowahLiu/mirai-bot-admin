@@ -24,8 +24,12 @@ object PluginMain : KotlinPlugin(
 ) {
 
     private val commands = listOf(MemberCommand, GroupCommand)
+    val avatarFolder = dataFolder.resolve("avatar")
     override fun onEnable() {
         logger.info { "Plugin loaded" }
+        if(avatarFolder.exists().not()) {
+            avatarFolder.mkdirs()
+        }
         commands.forEach (CommandManager::registerCommand)
     }
 
